@@ -1,0 +1,17 @@
+# Python environments
+venv/
+venv313/
+__pycache__/
+*.pyc
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Secrets
+.env
+.streamlit/secrets.toml
+
+# Temporary files
+.DS_Store

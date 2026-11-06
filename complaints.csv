@@ -1,0 +1,11 @@
+Complaint_ID,Customer,Complaint,Category,Urgency,Priority_Status,Status
+1001,Ravi,Refund not received,Refund,High,Immediate Attention,Pending
+1002,Priya,Product damaged,Product,High,Immediate Attention,In Progress
+1003,Kiran,Delivery delayed,Delivery,Medium,Normal Attention,Pending
+1004,Sneha,Password reset issue,Account,Low,Low Attention,Resolved
+1005,Arjun,Payment deducted twice,Payment,High,Immediate Attention,In Progress
+1006,Ravi,Refund not received,Refund,High,Immediate Attention,Pending
+1007,Shalini,Payment Processed but product not came,Product,Medium,Normal Attention,Pending
+1008,Prudhvi,"delivery not received
+",Delivery,High,Immediate Attention,Pending
+1009,TestUser,Test database connection,Product,Medium,Normal Attention,Pending
