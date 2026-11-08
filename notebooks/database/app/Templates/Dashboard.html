@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Complaint Dashboard - Data Shapers</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <h2>Data Shapers</h2>
+        <div>
+            <a href="/">Home</a>
+            <a href="/register">Register Complaint</a>
+            <a href="/dashboard">Dashboard</a>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <h1>Complaint Dashboard</h1>
+        <p class="subtitle">
+            Complaint Registration and Triage System
+        </p>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="message">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Summary Cards -->
+
+        <section class="dashboard-cards">
+
+            <div class="card">
+                <h3>Total Complaints</h3>
+                <p>{{ total }}</p>
+            </div>
+
+            <div class="card pending">
+                <h3>Pending</h3>
+                <p>{{ pending }}</p>
+            </div>
+
+            <div class="card progress">
+                <h3>In Progress</h3>
+                <p>{{ progress }}</p>
+            </div>
+
+            <div class="card resolved">
+                <h3>Resolved</h3>
+                <p>{{ resolved }}</p>
+            </div>
+
+        </section>
+
+        <!-- Category Chart -->
+
+        <section class="chart-section">
+            <h2>Category-wise Complaint Analysis</h2>
+
+            <div class="chart-container">
+                <canvas id="categoryChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Urgency Chart -->
+
+        <section class="chart-section">
+            <h2>Urgency-wise Complaint Analysis</h2>
+
+            <div class="chart-container">
+                <canvas id="urgencyChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Complaint Details -->
+
+        <section class="table-section">
+
+            <h2>Registered Complaint Details</h2>
+
+            {% if complaints %}
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Complaint</th>
+                            <th>Category</th>
+                            <th>Urgency</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Update Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for item in complaints %}
+                        <tr>
+                            <td>{{ item.Complaint_ID }}</td>
+                            <td>{{ item.Customer }}</td>
+                            <td>{{ item.Complaint }}</td>
+                            <td>{{ item.Category }}</td>
+                            <td>{{ item.Urgency }}</td>
+                            <td>{{ item.Priority_Status }}</td>
+                            <td>{{ item.Status }}</td>
+
+                            <td>
+                                <form method="POST" action="/update_status">
+                                    <input
+                                        type="hidden"
+                                        name="complaint_id"
+                                        value="{{ item.Complaint_ID }}"
+                                    >
+
+                                    <select name="status" required>
+                                        <option value="Pending"
+                                            {% if item.Status == 'Pending' %}selected{% endif %}>
+                                            Pending
+                                        </option>
+
+                                        <option value="In Progress"
+                                            {% if item.Status == 'In Progress' %}selected{% endif %}>
+                                            In Progress
+                                        </option>
+
+                                        <option value="Resolved"
+                                            {% if item.Status == 'Resolved' %}selected{% endif %}>
+                                            Resolved
+                                        </option>
+                                    </select>
+
+                                    <button type="submit" class="small-button">
+                                        Update
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% else %}
+                <p>No complaints registered yet.</p>
+            {% endif %}
+
+        </section>
+
+        <a class="back-link" href="/">Back to Home</a>
+
+    </main>
+
+
+    <script>
+
+        // Category-wise chart
+        const categoryData = {{ category_data | tojson }};
+
+        new Chart(document.getElementById("categoryChart"), {
+            type: "bar",
+
+            data: {
+                labels: categoryData.map(item => item[0]),
+
+                datasets: [{
+                    label: "Number of Complaints",
+                    data: categoryData.map(item => item[1]),
+                    backgroundColor: "#2563eb",
+                    borderRadius: 6
+                }]
+            },
+
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                }
+            }
+        });
+
+
+        // Urgency-wise chart
+        const urgencyData = {{ urgency_data | tojson }};
+
+        new Chart(document.getElementById("urgencyChart"), {
+            type: "bar",
+
+            data: {
+                labels: urgencyData.map(item => item[0]),
+
+                datasets: [{
+                    label: "Number of Complaints",
+                    data: urgencyData.map(item => item[1]),
+                    backgroundColor: "#f59e0b",
+                    borderRadius: 6
+                }]
+            },
+
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>

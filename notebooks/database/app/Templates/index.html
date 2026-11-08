@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Shapers</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <h2>Data Shapers</h2>
+        <div>
+            <a href="/">Home</a>
+            <a href="/register">Register Complaint</a>
+            <a href="/dashboard">Dashboard</a>
+        </div>
+    </nav>
+
+    <main class="hero">
+        <h1>Complaint Registration &amp; Triage System</h1>
+
+        <p>
+            A simple platform to register, prioritize and track customer
+            complaints efficiently.
+        </p>
+
+        <div class="hero-buttons">
+            <a class="btn" href="/register">Register a Complaint</a>
+            <a class="btn secondary" href="/dashboard">View Dashboard</a>
+        </div>
+    </main>
+
+    <footer>
+        Data Shapers | Complaint Management System
+    </footer>
+
+</body>
+</html>

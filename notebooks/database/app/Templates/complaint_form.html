@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Complaint</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <h2>Data Shapers</h2>
+        <div>
+            <a href="/">Home</a>
+            <a href="/dashboard">Dashboard</a>
+        </div>
+    </nav>
+
+    <main class="form-container">
+        <h1>Register a Complaint</h1>
+        <p class="subtitle">Please enter your complaint details below.</p>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="message">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="/register">
+
+            <label>Customer Name</label>
+            <input
+                type="text"
+                name="customer"
+                placeholder="Enter your name"
+                required
+            >
+
+            <label>Complaint Description</label>
+            <textarea
+                name="complaint"
+                rows="5"
+                placeholder="Describe your complaint"
+                required
+            ></textarea>
+
+            <label>Category</label>
+            <select name="category" required>
+                <option value="">Select Category</option>
+                <option value="Refund">Refund</option>
+                <option value="Product">Product</option>
+                <option value="Delivery">Delivery</option>
+                <option value="Account">Account</option>
+                <option value="Payment">Payment</option>
+            </select>
+
+            <label>Urgency</label>
+            <select name="urgency" required>
+                <option value="">Select Urgency</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+            </select>
+
+            <button type="submit">Submit Complaint</button>
+
+        </form>
+
+        <a class="back-link" href="/">Back to Home</a>
+    </main>
+
+</body>
+</html>
